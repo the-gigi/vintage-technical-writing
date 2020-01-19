@@ -1,0 +1,6 @@
+﻿- allow song playing
+- check boxes for selection
+- total duration should be more prominent (at the top?)
+- show # of selected songs
+- export song list to CSV
+- persist last folder (if possible)
