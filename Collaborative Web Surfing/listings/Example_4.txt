@@ -1,0 +1,61 @@
+		public void Listen()
+		{
+			try
+			{
+				CommCleanup();
+				ThreadPool.QueueUserWorkItem(new WaitCallback(SockThreadFunc));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("*** Exception *** ConnectionManager::ConnectionManager(), Description: " + e.Message);
+			}   
+		}
+
+        
+    	void SockThreadFunc(Object state)
+    	{
+			Socket listener;               
+			listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			listener.Blocking = true;
+			IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, m_listenPort);
+			try
+			{
+				listener.Bind(endPoint);
+			}
+			catch(SocketException e)
+			{
+				// If there is already a listener on this port, listen on another port
+				if(e.ErrorCode == 10048)
+				{
+					endPoint = new IPEndPoint(IPAddress.Any, ++m_listenPort);
+					--m_connectPort;
+					listener.Bind(endPoint);
+				}
+				else
+				{
+					throw e;
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("Exception - {0}", e.Message);
+				Debug.Assert(false);
+				return;
+			}
+			
+			m_listening = true;
+			m_sink.OnStartListening(m_listenPort);				
+			listener.Listen(m_listenPort);
+			m_sock = listener.Accept();
+			m_listening = false;
+
+			// Notify the sink that a connection was accepted
+			m_sink.OnConnectionAccepted();
+			
+			m_stream = new NetworkStream(m_sock);
+			m_writer = new StreamWriter(m_stream);
+			m_writer.AutoFlush = true;
+
+			AsyncCallback readReadyCallback = new AsyncCallback(OnReadReady);
+			m_stream.BeginRead(m_inBuff, 0, BUFF_SIZE, readReadyCallback, this);			
+    	}

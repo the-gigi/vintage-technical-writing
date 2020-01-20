@@ -1,0 +1,61 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosurfer", "Cosurfer.csproj", "{ED402EF3-024C-4007-88EE-6F696206CB8C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketSpike", "SocketSpike\SocketSpike.csproj", "{B490E917-0A59-43DD-A846-8E272FFFBF14}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlSpike", "XmlSpike\XmlSpike.csproj", "{3ED14791-8C1F-4A6E-8E2B-DFEE105EEB31}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IE_Puppeteer", "IE_Puppeteer\IE_Puppeteer.csproj", "{94B849DD-0EDD-4679-9E80-F9EE95AB4431}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "..\Launcher\Launcher.csproj", "{3E254567-7187-4FE1-AFD6-ECD13E8AD65C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainMaster", "..\Launcher\DomainMaster\DomainMaster.csproj", "{1C0B1897-AFF6-45AC-A293-9021A87E7A76}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{ED402EF3-024C-4007-88EE-6F696206CB8C}.Debug.ActiveCfg = Debug|.NET
+		{ED402EF3-024C-4007-88EE-6F696206CB8C}.Debug.Build.0 = Debug|.NET
+		{ED402EF3-024C-4007-88EE-6F696206CB8C}.Release.ActiveCfg = Release|.NET
+		{ED402EF3-024C-4007-88EE-6F696206CB8C}.Release.Build.0 = Release|.NET
+		{B490E917-0A59-43DD-A846-8E272FFFBF14}.Debug.ActiveCfg = Debug|.NET
+		{B490E917-0A59-43DD-A846-8E272FFFBF14}.Debug.Build.0 = Debug|.NET
+		{B490E917-0A59-43DD-A846-8E272FFFBF14}.Release.ActiveCfg = Release|.NET
+		{B490E917-0A59-43DD-A846-8E272FFFBF14}.Release.Build.0 = Release|.NET
+		{3ED14791-8C1F-4A6E-8E2B-DFEE105EEB31}.Debug.ActiveCfg = Debug|.NET
+		{3ED14791-8C1F-4A6E-8E2B-DFEE105EEB31}.Debug.Build.0 = Debug|.NET
+		{3ED14791-8C1F-4A6E-8E2B-DFEE105EEB31}.Release.ActiveCfg = Release|.NET
+		{3ED14791-8C1F-4A6E-8E2B-DFEE105EEB31}.Release.Build.0 = Release|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Debug.ActiveCfg = Debug|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Debug.Build.0 = Debug|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Release.ActiveCfg = Release|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Release.Build.0 = Release|.NET
+		{3E254567-7187-4FE1-AFD6-ECD13E8AD65C}.Debug.ActiveCfg = Debug|.NET
+		{3E254567-7187-4FE1-AFD6-ECD13E8AD65C}.Debug.Build.0 = Debug|.NET
+		{3E254567-7187-4FE1-AFD6-ECD13E8AD65C}.Release.ActiveCfg = Release|.NET
+		{3E254567-7187-4FE1-AFD6-ECD13E8AD65C}.Release.Build.0 = Release|.NET
+		{1C0B1897-AFF6-45AC-A293-9021A87E7A76}.Debug.ActiveCfg = Debug|.NET
+		{1C0B1897-AFF6-45AC-A293-9021A87E7A76}.Debug.Build.0 = Debug|.NET
+		{1C0B1897-AFF6-45AC-A293-9021A87E7A76}.Release.ActiveCfg = Release|.NET
+		{1C0B1897-AFF6-45AC-A293-9021A87E7A76}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

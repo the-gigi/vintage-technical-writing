@@ -1,0 +1,41 @@
+using System;
+using System.Xml;
+
+namespace XmlSpike
+{
+	class App
+	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			string xml = @"<?xml version=""1.0""?>
+<Document>
+	<Frame Url=""http://www.w3schools.com/tags/planets.htm"">
+		<Frame Url=""http://www.w3schools.com/tags/venus.htm"" />
+		<Frame Url=""http://www.w3schools.com/tags/sun.htm"" />
+		<Frame Url=""http://www.w3schools.com/tags/mercur.htm"" />
+	</Frame>
+</Document>
+";
+
+			ParseXml(xml);
+		}
+
+
+		static void ParseXml(string xml)
+		{
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(xml);
+				XmlElement root = doc.DocumentElement;
+				DumpNode(root.FirstChild, "");				
+		}
+
+		static void DumpNode(XmlNode node, string indent)
+		{
+			XmlAttribute url = node.Attributes.GetNamedItem("Url") as XmlAttribute;
+			Console.WriteLine("{0}{1}", indent, url.Value.ToString());
+			foreach (XmlNode child in node.ChildNodes)
+				DumpNode(child, indent + "\t");
+		}
+	}
+}

@@ -1,0 +1,2 @@
+ /out:CoSurfer.exe /target:exe /d:DEBUG /main:CoSurfer.CoSurferForm MainForm.cs CoSurfEngine.cs Browser.cs /doc:doc.xml 
+ /nowarn:618,1591 /r:System.dll /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.Xml.dll /r:SHDocVw_rcw.dll /r:MSHTML_rcw.dll /debug

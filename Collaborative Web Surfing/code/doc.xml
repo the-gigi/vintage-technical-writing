@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Browser</name>
+    </assembly>
+    <members>
+        <member name="T:CoSurfer.Browser">
+            <summary>
+               Summary description for Browser
+            </summary>
+        </member>
+        <member name="M:CoSurfer.Browser.Main">
+            <summary>
+               Static Main()
+            </summary>
+        </member>
+        <member name="M:CoSurfer.Browser.OnDocumentComplete(System.Object,System.Object@)">
+            <summary> 
+               This event handler is called for two events - 'NavigateComplete'
+               and 'DocumentComplete' because the treatment of both events is
+               the same.
+            </summary>   
+        </member>
+        <member name="P:CoSurfer.Browser.Document">
+            <summary> 
+               This property returns the internal IHTMLDocument2 interface
+               of the BrowserControl. If something is wrong ( _browser not initialized,
+               BrowserControl is busy or the document itself is not complete/interactive) 
+             it returns null.
+            </summary>   
+        </member>
+        <member name="P:CoSurfer.Browser.Busy">
+            <summary> 
+               This property returns the busy state of this WebBrowser control
+            </summary>   
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="39">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>ActorAdapter.h</itemPath>
+      <itemPath>../object_model/ActorBaseTemplate.h</itemPath>
+      <itemPath>../object_model/ActorFactory.h</itemPath>
+      <itemPath>../object_model/ActorInfoContainer.h</itemPath>
+      <itemPath>c_object_model.h</itemPath>
+      <itemPath>object_model.h</itemPath>
+      <itemPath>Turn.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>Turn.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU</compilerSet>
+        <cRequired>true</cRequired>
+        <cppRequired>true</cppRequired>
+        <fortranRequired>false</fortranRequired>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>../../include/</directoryPath>
+            <directoryPath>../../include/darwin86</directoryPath>
+            <directoryPath>..</directoryPath>
+          </includeDirectories>
+          <inheritIncValues>false</inheritIncValues>
+          <preprocessor>PF_PLATFORM_MAC APR_DECLARE_STATIC APU_DECLARE_STATIC</preprocessor>
+        </ccCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../object_model/ActorBaseTemplate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="../object_model/ActorFactory.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="../object_model/ActorInfoContainer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ActorAdapter.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="Turn.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="Turn.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="c_object_model.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="object_model.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>GNU</compilerSet>
+        <cRequired>true</cRequired>
+        <cppRequired>true</cppRequired>
+        <fortranRequired>false</fortranRequired>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <developmentMode>5</developmentMode>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <developmentMode>5</developmentMode>
+          <includeDirectories>
+            <directoryPath>../../include/</directoryPath>
+            <directoryPath>../../include/darwin86</directoryPath>
+            <directoryPath>..</directoryPath>
+          </includeDirectories>
+          <preprocessor>PF_PLATFORM_MAC APR_DECLARE_STATIC APU_DECLARE_STATIC</preprocessor>
+        </ccCompilerTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="../object_model/ActorBaseTemplate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="../object_model/ActorFactory.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="../object_model/ActorInfoContainer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ActorAdapter.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="Turn.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="Turn.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="c_object_model.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="object_model.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
