@@ -4,7 +4,7 @@ This repository contains technical articles I wrote for various publications bac
 Some of the early articles were actually published in paper magazines if you can believe it!
 
 This includes my first ever article (and one of my best articles to this day) for Windows Developer's Journal (WDJ).
-[A quick Test Window for COM](a-quick-test-window-for-com/index.html).
+[A quick Test Window for COM](http://htmlpreview.github.io/?https://github.com/the-gigi/vintage-technical-writing/blob/master/windows-developer-journal/a-quick-test-window-for-com/index.html).
 
 Fun fact - WDJ is so old that you can't even find it in Wikipedia. It was absorbed/renamed in 2001 to some other Windows magazine and eventually vanished completely.
 
