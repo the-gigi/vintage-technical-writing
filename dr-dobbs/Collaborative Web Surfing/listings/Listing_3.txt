@@ -1,0 +1,12 @@
+
+void OnDocumentComplete(Object o, ref Object url)
+{   
+	Console.WriteLine("OnDocumentComplete, URL: {0}", url);
+	IHTMLDocument2 doc = m_ie.Document as IHTMLDocument2;
+	foreach (IHTMLElement e in doc.all)
+	{
+		IHTMLFrameBase f = e as IHTMLFrameBase;
+		if (f != null)
+			Console.WriteLine("src={0}", f.src);
+	}
+}

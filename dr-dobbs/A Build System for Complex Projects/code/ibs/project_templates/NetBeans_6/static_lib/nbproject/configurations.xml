@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="45">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+${HppFiles}    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+${CppFiles}    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceEncoding>UTF-8</sourceEncoding>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>${PlatformID}</platform>
+      </toolsSet>
+      <compileType>
+        <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>../..</directoryPath>
+          </includeDirectories>
+        </ccCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+${ToolCppFiles}${ToolHppFiles}    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>${PlatformID}</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <developmentMode>5</developmentMode>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <developmentMode>5</developmentMode>
+          <includeDirectories>
+            <directoryPath>../..</directoryPath>
+          </includeDirectories>
+        </ccCompilerTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+${ToolCppFiles}${ToolHppFiles}    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,0 +1,6 @@
+		$$$-comment-$$$
+		public $$$-return_type-$$$ $$$-event-$$$($$$-parameter_defs-$$$)
+		{
+			foreach ($$$-Interface-$$$ subscriber in $$$-sink_list-$$$)
+				subscriber.$$$-event-$$$($$$-parameter_list-$$$);
+		}

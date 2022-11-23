@@ -1,0 +1,69 @@
+using System;
+using System.IO;
+using System.Threading;
+using SHDocVw;
+using mshtml;
+
+namespace IE_Puppeteer
+{
+   class Puppeteer
+   {
+      private InternetExplorer m_ie = null;
+      private AutoResetEvent m_quitEvent = new AutoResetEvent(false);
+
+
+      public void OnQuit()
+      {
+         m_quitEvent.Set();
+      }
+
+      public void OnNavigateComplete(Object o, ref Object url)
+      {        
+         Console.WriteLine("OnNavigateComplete, URL: {0}", 
+                            m_ie.LocationURL);
+      }
+
+      void OnDocumentComplete(Object o, ref Object url)
+      {   
+         Console.WriteLine("OnDocumentComplete, URL: {0}", url);
+         IHTMLDocument2 doc = m_ie.Document as IHTMLDocument2;
+         foreach (IHTMLElement e in doc.all)
+         {
+            Console.WriteLine("src={0}", e.tagName);
+         }
+      }
+
+      Puppeteer()
+      {
+      }
+
+      void Run()
+      {
+         m_ie = new InternetExplorer();
+         Console.WriteLine("Visible: {0}", m_ie.Visible);
+         m_ie.Visible = true;
+
+         DWebBrowserEvents2_OnQuitEventHandler qd;
+         qd = new DWebBrowserEvents2_OnQuitEventHandler(OnQuit);
+         m_ie.OnQuit += qd;
+
+         DWebBrowserEvents2_DocumentCompleteEventHandler dcd;
+         dcd  = new DWebBrowserEvents2_DocumentCompleteEventHandler(
+                  OnDocumentComplete);
+         m_ie.DocumentComplete += dcd;
+
+         Object o = null;  
+         string url = Path.GetFullPath("../../frameset.html");
+         Console.WriteLine("Navigate({0})", url);
+         m_ie.Navigate(url, ref o, ref o, ref o, ref o);   
+
+         m_quitEvent.WaitOne();      
+      }
+
+      [STAThread]
+      static void Main(string[] args)
+      {
+         new Puppeteer().Run();
+      }
+   }
+}

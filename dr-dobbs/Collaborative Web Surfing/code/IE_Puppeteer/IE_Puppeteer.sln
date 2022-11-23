@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IE_Puppeteer", "IE_Puppeteer.csproj", "{94B849DD-0EDD-4679-9E80-F9EE95AB4431}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Debug.ActiveCfg = Debug|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Debug.Build.0 = Debug|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Release.ActiveCfg = Release|.NET
+		{94B849DD-0EDD-4679-9E80-F9EE95AB4431}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

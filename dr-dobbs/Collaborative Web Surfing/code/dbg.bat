@@ -1,0 +1,1 @@
+cordbg < cordbg.cfg

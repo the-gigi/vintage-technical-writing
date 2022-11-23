@@ -1,0 +1,7 @@
+...
+ConnectionManager connectionManager = new ConnectionManager();
+CosurfEngine engine = new CosurfEngine(connectionManager);
+
+connectionManager.AttachSink(engine);
+...
+
