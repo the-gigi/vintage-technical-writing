@@ -1,0 +1,161 @@
+<HTML>   
+     <HEAD>
+<TITLE>March 2001/A Quick Test Window for COM</TITLE></HEAD>
+<BODY bgcolor="FFFFFF">
+<H2 ALIGN="center">A Quick Test Window for COM</H2>
+<H3 ALIGN="center">Gigi Sayfan</H3>
+
+<hr>
+
+<p>I recently attended a lecture by Don Box where he used Visual Basic&#146;s immediate mode feature to explore various COM objects. The process seemed very cumbersome to me. Don fired up the VB IDE, created a dummy form, and put a break statement in its <B>FormLoad()</B> method. Then he ran the dummy application, and when it hit the breakpoint, he was in VB&#146;s immediate mode, which is sort of a command prompt with access to all the registered COM objects (among other things).</p>
+
+<p>I saw the benefit of exploring COM objects interactively, but being a hard core C++ kind of guy, I didn&#146;t want to install the entire VB IDE and then spend way too many keystrokes just to call a method of some COM object. What I had in mind was a quick testing environment for COM objects I write. Such a testing environment would let me code a method, build the COM object (unless it&#146;s a WSC, but that&#146;s another article), immediately call it several times with different parameters, and watch the results. The solution I came up with, called WinPrompt, is based on an HTA application hosting the MS Script control. The scriplet control allows adding COM automation objects for testing and the full power of a scripting language of your choice. (I use JavaScript.) The user interface is actually a DHTML application, courtesy of the IE 5.5 WebBrowser control, which is the heart of an HTA (HTML Application).</p>
+
+  <p>The source for WinPrompt is in <B>winprmpt.hta</B> (<a href="0103b_l1.htm">Listing 
+    1</a>). You can also download it from this month&#146;s source code archive.</p>
+
+<H4>Windows and COM Objects</H4>
+
+<p>COM objects are the heart and soul of modern Windows applications. In the name of component-based development, everybody and his sister is doing COM these days. Just fire up the OLE/COM Object Viewer and check out your computer if you don&#146;t want to take my word for it. The Object Viewer is one of the Visual Studio tools, and you should find it in</p>
+
+<pre>
+&lt;Your visual studio root&gt;\Common\Tools\OleView.exe
+</pre>
+
+<p>along with some other interesting utilities. I will not delve into COM in this article; I&#146;ll just say that COM objects allow true reuse of functionality.</p>
+
+<p>Raw COM objects may be instantiated and called from any language that supports pointers and virtual function tables. In order to use raw COM objects, you must know what interfaces they implement and what methods to call on each interface. COM automation objects, on the other hand, implement a special interface called <B>IDispatch</B> and carry with them type information, so dynamic discovery of their methods is possible. Many languages and tools that don&#146;t support raw COM objects do support COM automation objects. Automation objects are not as efficient as raw COM objects and are very cumbersome to use from C++. Other environments like VB, VJ++, Delphi, and scripting languages offer strong and friendly support for COM objects in general and automation objects in particular.</p>
+
+<H4>MS ScriptControl</H4>
+
+<p>The Script Control is an ActiveX control that lets developers add scripting capabilities to their applications. The application hosts the Script control, which provides several methods to add objects (automation objects), add code, and execute statements. The application developer is supposed to add his application&#146;s objects to the Script control and provide the user some mechanism (an editor window or a plain text file) to write scripts against this object model. The Script control supports any scripting language installed. WinPrompt uses JScript.</p>
+
+<H4>HTA</H4>
+
+<p>HTAs (HTML Application) are actually regular Windows applications that are built around the WebBrowser control. HTA became available with IE 5.0, so you must have IE 5.0 (or higher) installed to use it. The user interface of an HTA is DHTML, and its logic is script. At this point, the reasonable reader will ask what is the difference between an HTA and just a local HTML file. Well, it turns out that they are pretty much the same except that HTAs don&#146;t impose all the nagging security warnings that a regular browser displays if the HTML file uses ActiveX controls. Another minor difference is that HTAs have a special application tag that lets the HTA developer control several parameters, such as application icon, title, and whether or not it will appear in the taskbar. I find HTAs a great tool for rapid proptotyping and even serious utilities development, especially when using automation objects such as WSH, RegEx, and the FileSystemObject.</p>
+
+<p>WinPrompt&#146;s code is really trivial, and the trick is using existing technologies in an innovative way. The result is both simple and powerful. I will first describe the user interface of WinPrompt and then the code.</p>
+
+<H4>The WinPrompt User Interface</H4>
+
+<p>The WinPrompt user interface is very minimalistic. However, I took advantage of WinPrompt to explore the wonderful world of DHTML and CSS (Cascasing Style Sheets) in IE 5. WinPrompt has a simple window with a single-line input element for entering commands and a multi-line <B>div</B> element for displaying previous commands and command results, very much like a regular command prompt. The window is resizable and the elements stretch and shrink dynamically to occupy exactly its entire area. I will explain how it&#146;s done shortly, just note that both elements have a style clause which specify &#147;style=&#145;position:absolute&#146;&#148;.</p>
+
+<p>I wanted the command line to get the focus when WinPrompt starts, but I couldn&#146;t make it happen although I called the <B>focus()</B> method. It turned out to be your regular &#147;gotcha&#148;; I quote from the <B>focus()</B> method documentation: &#147;As of Microsoft Internet Explorer 5, elements that expose the focus method must have the TABINDEX attribute set.&#148;</p>
+
+<p>Another UI thing that bugs me is that IE displays a disabled scrollbar even when the entire content of the document is visible. Since the content (input + div) in WinPrompt can never exceed the window limits, I didn&#146;t want a redundant scrollbar cramping my style (sheet). That&#146;s easily done by adding &#147;scroll=&#145;no&#146;&#148; to the body element.</p>
+
+<H4>Genesis (the onLoad event)</H4>
+
+<p>When a user runs WinPrompt, the <B>onLoad</B> event is fired and the <B>onLoad</B> function or event handler is executed. This function initializes the user interface and then it creates several objects, initializes the script control, and adds the objects to the script control.</p>
+
+<p>Creating objects in JScript is a piece of cake. All you have to do is:</p>
+
+<pre>
+oObj = new ActiveXObject('ProgId');
+</pre>
+
+<p>Every automation object (almost) must have a <B>ProgId</B> which identifies it. <B>ProgId</B>s can be found in the registry, using COM/OLE Viewer or by looking at some MSDN samples.</p>
+
+<p>The objects I created are :</p>
+
+<p><B>WScript.Shell</B> &#151; The windows scripting host shell object that I use for displaying message boxes.</p>
+
+<p><B>Scripting.FileSystemObject</B> &#151; Always handy for file manipulation (opening, reading, writing).</p>
+
+<p><B>MSScriptControl.ScriptControl</B> &#151; The one and only script control, which is just another automation object.</p>
+
+<p><B>InternetExplorer.Application</B> &#151; This is the IE browser that I want to explore.</p>
+
+<H4>ScriptControl Initialization</H4>
+
+<p>About the only thing you must do to initialize the ScriptControl is to set the language. I use the JScript language. You can initialize it to any scripting engine language that is installed on your computer, such as Perl or Python. Note that the scripting language must support the active scripting interfaces. You can&#146;t expect the script control to hack its way into any script language just like that. JScript and VBScript are prevalent on many computers since they come with newer versions of Windows and Internet Explorer. If you don&#146;t have any script engine Installed, you may download JScript and VBScript from <B>www.microsoft.com/scripting</B>.</p>
+
+<H4>Adding Objects to the ScriptControl</H4>
+
+<p>To add an object to the script control, you call a method with the surprising name of <B>AddObject(name, oObj)</B>. It takes an object name and an automation object reference as input, and once added, you may call that object&#146;s methods and get/set its properties by using its name (more on that later). A nice self-reference trick is adding the ScriptControl to itself. Suppose <B>oSC</B> is your script control. Then by calling</p>
+
+<pre>
+oSC.AddObject("oSC", oSC);
+</pre>
+
+<p>the script control may be called by script code. Taking it to the extreme, you can create a full-fledged scripting IDE with very little effort.</p>
+
+<H4>Adding Code to the ScriptControl</H4>
+
+<p>The ScriptControl also allows adding code (functions), which may be called later like normal functions. The ScriptControl supports the concept of modules and functions that are local to specific modules, but the most convenient thing is just adding functions to the global module, which is the default. To add code to the ScriptControl, I call the <B>AddCode()</B> method. This method accepts a string that must be a syntactically correct function in the selected script language. Once added, that function may be called from any other code. Adding code to the script control makes it easy to extend its capabilities. Consider, for example, a function that accepts a script filename, opens it, and adds its functions to the ScriptControl.</p>
+
+<H4>initUI()</H4>
+
+<p>initUI()</B> bears the tremendous burden of making the window of WinPrompt look the way I want it. Much of the settings in this function could have been done in other places like attributes of HTML elements and style tags, but it took me a while to get the settings right, so it was convenient putting it in a function where I can check after each line whether the desired effect actually happened. Some properties, such as the width of <B>txtCode</B> and width/height of divOut, are dynamic properties calculated automatically whenever the window is resized. This is a new feature of IE 5, and it saves the hard-working developer from adding an <B>onResize()</B> event handler for this purpose.</p>
+
+<H4>loadCode()</H4>
+
+<p>loadCode()</B> is a kind of internal command. You can call this function and pass it a filename. The contents of the file will be read and added to the ScriptControl. This is very convenient when you want to perform some complex initialization on an object or just perform a sequence of operations on an object. The loaded file may contain any JScript functions and refer to other objects that were added to the ScriptControl.</p>
+
+<H4>go()</H4>
+
+<p>Despite its simplicity, <B>go()</B> is where all the action is. The command line (<B>txtCode</B> input element in HTML) has an event handler for the <B>onkeydown</B> event that calls <B>go()</B> whenever the user presses the Enter key. <B>go()</B> reads the contents of the command line and calls the ScriptControl&#146;s <B>ExecuteStatement()</B> method, passing the command line as input. The ScriptControl executes the code, which may be a JScript statement, a method call of some known object or a known function. Once the execution is complete, the command line is copied to the output pane (with the WinPrompt&#146;s prompt), and the code in the command line itself is selected, so it can be modified or overwritten easily by the user. That&#146;s all there is to it.</p>
+
+<H4>Error Handling</H4>
+
+<p>I use JScript&#146;s built-in (since version 5.0) exception handling for error handling. Basically, potentially unsafe operations like calling a method with arbitrary parameters are wrapped in a <B>try...catch</B> block. The semantics of JScript&#146;s exception handling is that illegal operations throw an exception. This bumps the execution point to the <B>catch</B> clause of the <B>try...catch</B> block, passing an exception object that contains error information, and the program continues running from there. All I do in the <B>catch</B> clause is pop up a message box with an error number and description. The ScriptControl itself has some pretty good mechanisms to handle and report errors, but I left it for future development.</p>
+
+<H4>WinPrompt in Action</H4>
+
+  <p>To test drive WinPrompt, just use Internet Explorer&#146;s File|Open to enter 
+    the path to <B>winprmpt.hta</B>. You should see the window shown in <a href="0103b_f1.htm">Figure 
+    1</a>. <B>onLoad()</B> creates an instance of the browser and stores it in 
+    a variable called <B>oBrowser</B>. You can cause the corresponding browser 
+    window to appear by typing:</p>
+
+<pre>
+oBrowser.Visible = true;
+</pre>
+
+<p>into the WinPrompt command prompt. The browser window should appear. You can similarly invoke any other methods that the browser object supports. For example, typing:</p>
+
+<pre>
+oBrowser.Navigate('www.wdj.com');
+</pre>
+
+<p>will cause the browser window to request and display the indicated URL. Typing:</p>
+
+<pre>
+oBrowser.Document.bgColor='Yellow';
+</pre>
+
+<p>will change the browser window&#146;s background color.</p>
+
+  <p>For fun, I prepared an external file called <B>effects.js</B> (<a href="0103b_l2.htm">Listing 
+    2</a>) that contains some functions you can invoke. <B>animate()</B> causes 
+    the browser to glide from right to left. <B>jitter()</B> makes the browser 
+    jitter on the screen. <B>stopJitter()</B> stops the jittering.</p>
+
+<H4>Future Enhancements</H4>
+
+<p>There are quite a few enhancements I plan to make for WinPrompt to become a truly killer tool:</p>
+
+<ul><LI>Save sessions as script files</li>
+<LI>Use the error information and events of the ScriptControl</li>
+<LI>View automation object properties, methods, enumerations, etc.</li>
+<LI>Port to .NET to explore any object derived from the CLR&#146;s Object</li></ul>
+
+<H4>References</H4>
+
+<p>HTML Applications &#151; Power Up Your Web Applications with IE5; <B>msdn.microsoft.com/library/periodic/period99/htmlapplications.htm</B></p>
+
+<p>HOWTO: Call a Script Method from an ActiveX Script Host; <B>support.microsoft.com/support/kb/articles/Q222/9/66.ASP</B></p>
+
+<p>Say Goodbye to Macro Envy With Active Scripting; <B>msdn.microsoft.com/library/periodic/period97/activescripting.htm</B></p>
+
+<p>What is Active Scripting?; <B>msdn.microsoft.com/library/periodic/period99/visualprog1099.htm</B></p>
+
+<p>Visual Programmer: Add Scripting to Your Apps with Microsoft ScriptControl; <B>msdn.microsoft.com/library/periodic/perod00/visualprog0600.htm</B>.</p>
+
+  <p><a href="0103b_f2.htm">Figure 2: WinPrompt after entering some commands</a></p>
+
+<p><i><b>Gigi Sayfan</B> is a sotware developer which specializes in object-oriented and component-oriented programming using C++ for the Win32 platform. He also utilizes scripting languages and various web technologies when the situation calls for it.</I></p>
+
+<h4><a href=""></a></h4>
+
+</body></html>

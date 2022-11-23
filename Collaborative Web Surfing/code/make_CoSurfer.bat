@@ -1,2 +1,0 @@
-csc @CoSurfer.rsp
-cosurfer

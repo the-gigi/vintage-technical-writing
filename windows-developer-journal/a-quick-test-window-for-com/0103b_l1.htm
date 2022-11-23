@@ -1,0 +1,172 @@
+<HTML><HEAD>
+<TITLE>March 2001/A Quick Test Window for COM/Listing 1</TITLE></HEAD>
+
+<BODY bgcolor="FFFFFF">
+
+<h4><A NAME="heading1">Listing 1: winprmpt.hta &#151; HTML source for WinPrompt</a></h4>
+
+<pre>
+&lt;!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;hta:application id="objHTA"
+                 applicationname="Windows Script Prompt"
+                 border="1"
+                 borderstyle="NORMAL"
+                 icon="WinPrmpt.ico"
+                 showintaskbar="1"
+                 singleinstance="1"
+                 windowstate="NORMAL"&gt;
+
+&lt;title&gt;WinPrompt&lt;/title&gt;
+&lt;script language="JScript"&gt;
+//----------------------------------------------
+// G L O B A L   V A R I A B L E S
+//----------------------------------------------
+var oShell;
+var oFS;
+var oSC;
+var oBrowser;
+
+window.onload = onLoad; // attaching handler to the onLoad event
+
+function onLoad()
+{
+    try
+    {
+        oShell   = new ActiveXObject
+                   ('WScript.Shell');
+        oFS      = new ActiveXObject
+                   ('Scripting.FileSystemObject');
+        oSC      = new ActiveXObject
+                   ('MSScriptControl.ScriptControl');
+        oBrowser = new ActiveXObject
+                   ('InternetExplorer.Application');
+
+        oBrowser.Left    = 600;
+        oBrowser.Width   = 300;
+        oBrowser.Height  = 300;
+
+        // Initialize Script Control
+        oSC.Language = 'JScript';
+        // Add objects to the script control
+        oSC.AddObject("oShell", oShell);
+        oSC.AddObject("oFS", oFS);
+        oSC.AddObject("oBrowser", oBrowser);
+
+        // Adding the ScriptControl to itself
+        oSC.AddObject("oSC", oSC);
+
+        // Adding code to the script control
+        code =  'function foo()' +
+                '{ oShell.Popup("Hello, I am function foo"); }';
+
+        oSC.AddCode(code);
+
+        // loading external code
+        loadCode('effects.js');
+
+        initUI();
+    }
+    catch(e)
+    {
+        displayErrorMessage(e);
+    }
+}
+
+function initUI()
+{
+    var nFrame = 3;
+
+    resizeTo(500,500);
+
+    with (txtCode.style)
+    {
+        left  = nFrame;
+        top   = nFrame;
+
+        widthExpr = 'document.body.clientWidth - ' +
+                    '2*txtCode.style.pixelLeft';
+
+        setExpression('width', widthExpr);
+        height= 25;
+    }
+
+    with (divOut.style)
+    {
+        left  = nFrame;
+        with (txtCode)
+        {
+            top = style.pixelTop + style.pixelHeight + nFrame;
+        }
+
+        setExpression('width',
+           'document.body.clientWidth-2*divOut.style.pixelLeft');
+
+        s1 = 'document.body.clientHeight-divOut.style.pixelTop-';
+        s2 = 'divOut.style.pixelLeft';
+        heightExpr = s1+s2;
+        setExpression('height', heightExpr);
+
+    }
+
+    txtCode.select();
+    txtCode.focus();
+
+    top.moveTo(100,100);
+}
+
+function loadCode(filename)
+{
+    try
+    {
+        oFile = oFS.OpenTextFile(filename);
+        code  = oFile.ReadAll();
+        oSC.AddCode(code);
+    }
+    catch(e)
+    {
+        displayErrorMessage(e);
+    }
+}
+
+function displayErrorMessage(e)
+{
+    oShell.Popup('Error (' + e.number.toString(16) +
+                 '): ' + e.description);
+
+}
+
+function go()
+{
+    try
+    {
+        oSC.ExecuteStatement(txtCode.value);
+    }
+    catch(e)
+    {
+        displayErrorMessage(e);
+    }
+    output = '&lt;b&gt;WinPrompt &gt;&lt;/b&gt; '+txtCode.value+'&lt;br/&gt;';
+    divOut.innerHTML += output;
+    txtCode.select();
+}
+&lt;/script&gt;
+&lt;!-----------------------------&gt;
+&lt;!--   H T M L  S T A R T    --&gt;
+&lt;!-----------------------------&gt;
+&lt;/head&gt;
+&lt;body scroll='no'&gt;
+&lt;input id='txtCode' type='text' tabindex='1'
+        value='Your code goes here...'
+        style='position:absolute; '
+        onkeydown='if (event.keyCode==13) go();'/&gt;
+&lt;div id="divOut"
+    style='position:absolute; border: 1 solid black;
+           color:blue; overflow:auto;' &gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+</body></html>

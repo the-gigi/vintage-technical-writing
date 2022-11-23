@@ -1,0 +1,51 @@
+<HTML><HEAD>
+<TITLE>March 2001/A Quick Test Window for COM/Listing 2</TITLE></HEAD>
+
+<BODY bgcolor="FFFFFF">
+
+<h4><A NAME="heading1">Listing 2: effects.js &#151; Some fun JScript functions</a></h4>
+
+<pre>
+var timeoutId;
+
+function animate()
+{
+    if (oBrowser.Left &gt; 100)
+    {
+        oBrowser.Left -= 30;
+        with (oBrowser.Document.parentWindow)
+        {
+                setTimeout(animate, 100);
+        }
+    }        
+}
+
+function jitter()
+{
+    
+    oBrowser.Visible = true;
+    
+    with (oBrowser)
+    {
+        x = Left + 2 * (Math.random() - 0.5) * 10;
+        y = Top  + 2 * (Math.random() - 0.5) * 10;
+
+        Left = x;
+        Top  =  y;
+
+        // A document must be loaded into the browser,
+        // or setTimeout() will throw an exception
+        with (oBrowser.Document.parentWindow)
+        {
+            timeoutId = setTimeout(jitter, 500);
+        }
+    }    
+}
+
+function stopJitter()
+{     
+    oBrowser.Document.parentWindow.clearTimeout(timeoutId);
+}
+</pre>
+
+</body></html>
